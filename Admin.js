@@ -1,23 +1,30 @@
 import {Kafka} from "kafkajs";
 
 const kafka = new Kafka({
-    clientId = 'my-app',
-    brokers = ['http://localhost:9092']
+    clientId : 'my-app',
+    brokers :  ['localhost:9092']
 })
 
+const admin = await kafka.admin();
+console.log('Admin Connecting...');
+
 async function init() {
-    const admin = kafka.admin;
-    console.log('Admin Connecting...');
-    admin.connect();
+    await admin.connect();
     console.log('Admin connected successfully');
 
-    console.log("Creating Topic [rider-updates]")
+    createtopic('rider-updates')
+
+}
+
+const createtopic = async (name) =>{
+    console.log("Creating Topic [", name, "]")
     await admin.createTopics({
         topics: [{
             'topic' : 'rider-updates',
             numPartitions : 2
         }]
     })
-    console.log('topic successfully created [rider-updates]')
-
+    console.log('topic successfully created [', name, ']')
 }
+
+init()
