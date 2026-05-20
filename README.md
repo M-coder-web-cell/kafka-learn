@@ -1,14 +1,5 @@
 # Kafka
-Video Link: [Apache Kafka Crash Course | What is Kafka?](https://youtu.be/ZJJHm_bd9Zo)
-## Prerequisite
-- Knowledge
-  - Node.JS Intermediate level
-  - Experience with designing distributed systems
-- Tools
-  - Node.js: [Download Node.JS](https://nodejs.org/en)
-  - Docker: [Download Docker](https://www.docker.com)
-  - VsCode: [Download VSCode](https://code.visualstudio.com)
-
+- This repository contains my Learning work on Apache kafka, just getting used to it and learning the concepts of this technology..
 ## Commands
 - For latest versions do not need zookeeper, we will use Kafka Raft Metadata mode (KRaft)
 - Start Kafka Container, expose PORT `9092` and setup ENV variables.
