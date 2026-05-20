@@ -1,10 +1,4 @@
 import { kafka } from "./client.js"
-import {readline} from "readline"
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
 
 async function init(){
     const consumer = kafka.consumer({
