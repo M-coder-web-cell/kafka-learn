@@ -1,9 +1,4 @@
-import {Kafka} from "kafkajs";
-
-const kafka = new Kafka({
-    clientId : 'my-app',
-    brokers :  ['localhost:9092']
-})
+import {kafka} from "./client.js"
 
 const admin = await kafka.admin();
 console.log('Admin Connecting...');
@@ -12,7 +7,11 @@ async function init() {
     await admin.connect();
     console.log('Admin connected successfully');
 
-    createtopic('rider-updates')
+    await createtopic('rider-updates')
+
+    console.log('Disconnecting Admin...')
+    await admin.disconnect()
+    console.log('Successfully disconnected')
 
 }
 
