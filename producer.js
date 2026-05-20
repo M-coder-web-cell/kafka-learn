@@ -6,36 +6,31 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-const init = async () => {
-    const producer = kafka.producer()
+async function init() {
+  const producer = kafka.producer();
 
-    await producer.connect()
-    console.log("Producer connected Successfully...")
+  console.log("Connecting Producer");
+  await producer.connect();
+  console.log("Producer Connected Successfully");
 
+  rl.setPrompt("> ");
+  rl.prompt();
+
+  rl.on("line", async function (line) {
+    const [riderName, location] = line.split(" ");
     await producer.send({
-        topic: 'rider-updates',
-        messages: [
-            { key: 'location-updates', 
-                partition : 0, 
-                value: JSON.stringify({ 
-                    rider : "Amrit Mishra",
-                    time : "20:00:07", 
-                    coordinates : "[19.61, 78.67]"
-                 })
-            },
-            { key: 'location-updates', 
-                partition : 0, 
-                value: JSON.stringify({ 
-                    rider : "Ram Sharma",
-                    time : "20:00:07", 
-                    coordinates : "[25.78, 73.69]" 
-                })
-            },
-         ],
-    })
-
-    await producer.disconnect()
-    console.log('Producer disconnected successfully...')
+      topic: "rider-updates",
+      messages: [
+        {
+          partition: location.toLowerCase() === "north" ? 0 : 1,
+          key: "location-update",
+          value: JSON.stringify({ name: riderName, location }),
+        },
+      ],
+    });
+  }).on("close", async () => {
+    await producer.disconnect();
+  });
 }
 
 init()
